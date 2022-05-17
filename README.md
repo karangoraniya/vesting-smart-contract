@@ -1,6 +1,16 @@
 # NFT-Marketplace-Smart-Contract
 
-NFT-MArketplace Smart Contract users can set royalty of NFT, buy with ERC20 token & 2.5% platform fees.
+Vesting Smart Contract for 2 months cliff and 22 months linear vesting for all roles.
+
+## Vesting
+
+#### Get all Tokens Details
+
+| Roles       | Token % | Total Tokens |
+| :---------- | :------ | :----------- |
+| Advisor     | `05`    | 500000       |
+| Partnership | `10`    | 1000000      |
+| Mentor      | `09`    | 900000       |
 
 ## Important Step
 
