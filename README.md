@@ -1,4 +1,4 @@
-# NFT-Marketplace-Smart-Contract
+# Vesting-Smart-Contract
 
 Vesting Smart Contract for 2 months cliff and 22 months linear vesting for all roles.
 
