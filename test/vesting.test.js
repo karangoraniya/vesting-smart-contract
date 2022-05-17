@@ -1,19 +1,34 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
+const { expect } = require('chai');
+const { BigNumber } = require('ethers');
+const { ethers } = require('hardhat');
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe('Vesting', function () {
+  it('Should start the vesting ', async function () {
+    [owner, creator, addr1, addr2, addr3] = await ethers.getSigners();
+    const NappyToken = await ethers.getContractFactory('NappyToken');
+    const totalSupply = BigNumber.from(10000000);
+    const nappyToken = await NappyToken.deploy(totalSupply);
+    await nappyToken.deployed();
+    nappyTokenAddress = nappyToken.address;
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+    // For Vesting Contract
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+    const Vesting = await hre.ethers.getContractFactory('Vesting');
+    const vesting = await Vesting.deploy(nappyTokenAddress);
+    await vesting.deployed();
+    vestingAddress = vesting.address;
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+    await nappyToken.transfer(
+      vestingAddress,
+      nappyToken.balanceOf(owner.address)
+    );
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    await vesting.connect(owner).addBeneficiary(addr1.address, 0);
+    await vesting.connect(owner).addBeneficiary(addr2.address, 1);
+    await vesting.connect(owner).addBeneficiary(addr3.address, 2);
+
+    await vesting.startVesting(2 * 2629743, 22 * 2629743);
+
+    expect(await vesting.vestingStarted()).to.equal(true);
   });
 });
