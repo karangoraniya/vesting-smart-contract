@@ -43,11 +43,7 @@ contract Vesting is Ownable,ReentrancyGuard {
     uint256 public totalMentors;
 
     // start date & end date
-
-    uint256 lastUpdated;
-    // uint startTime = 1654043400; // 2022-06-01 06:00:00
     uint startTime;
-    uint endTime = 1685579400;  // 2023-06-01 06:00:00
 
     enum Roles {
         advisor,
