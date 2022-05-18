@@ -15,10 +15,10 @@ contract Vesting is Ownable,ReentrancyGuard {
 
    // Vesting 
 
-    uint256 Advisor = 5;
-    uint256 Partnerships = 10;
-    uint256 Mentors = 9;
-    uint256 deno = 100;
+    uint256 constant Advisor = 5;
+    uint256 constant Partnerships = 10;
+    uint256 constant Mentors = 9;
+    uint256 constant deno = 100;
 
     // 100000000
 
