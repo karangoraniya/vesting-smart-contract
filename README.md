@@ -108,5 +108,5 @@ Help
 
 ## Check on Rinkeby Explorer
 
-- [NappyToken](https://rinkeby.etherscan.io/address/0x47F88eeA94bA9D50D2f6A7e4fC734C2792dbD01D)
-- [Vesting](https://rinkeby.etherscan.io/address/0xFD28e6B4b91B3D1E2664577226105720567b8448)
+- [NappyToken](https://rinkeby.etherscan.io/address/0x9b8052b7BfC215aB27d6757ac5Df806BEB3c3b96)
+- [Vesting](https://rinkeby.etherscan.io/address/0x4d4986da3A2fb60F75B750aB6bcff4123A7d3cB9)
