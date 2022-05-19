@@ -2,18 +2,23 @@
 
 pragma solidity ^0.8.4;
 
+/// @title Vesting Smart Contract
+/// @author Karan J Goraniya
+/// @dev All function calls are currently implemented without side effects
+
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
 
 contract Vesting is Ownable,ReentrancyGuard {
 
    // Vesting 
 
-    uint256 Advisor = 5;
-    uint256 Partnerships = 10;
-    uint256 Mentors = 9;
-    uint256 deno = 100;
+    uint256 constant Advisor = 5;
+    uint256 constant Partnerships = 10;
+    uint256 constant Mentors = 9;
+    uint256 constant deno = 100;
 
     // 100000000
 
@@ -63,9 +68,9 @@ contract Vesting is Ownable,ReentrancyGuard {
 
     event AddBeneficiary(address beneficiary, uint8 role);
 
-    /*
-     
-    */
+    // @notice It will add beneficiary with specfic role
+    // @dev It will check you are not already beneficiary, role should be one of 3 & vesting is started or not. 
+    // @param _beneficiary, _role will added for users.
     
     function addBeneficiary(address _beneficiary, uint8 _role) external onlyOwner {
         require(beneficiaryMap[_beneficiary].isBeneficiary == false, 'already you are added');
@@ -85,6 +90,9 @@ contract Vesting is Ownable,ReentrancyGuard {
         }
     }
 
+    // @notice It will start the vesting by entering cliff period and duration
+    // @dev It will check vesting should not started.
+    // @param _cliff and _duration will added 
 
     function startVesting(uint256 _cliff, uint256 _duration) external onlyOwner {
         require(vestingStarted == false, 'vesting started');
@@ -96,11 +104,19 @@ contract Vesting is Ownable,ReentrancyGuard {
         tokenCalculate();
     }
 
+    // @notice It will calculate the token for the 3 roles.
+    // @dev It will calculate the toke as per above define
+
     function tokenCalculate() private {
         perAdvisorTokens = totalTokens  * Advisor  / deno * totalAdvisors;
         perPartnershipTokens = totalTokens * Partnerships / deno * totalPartnerships;
         perMentorsTokens = totalTokens * Mentors / deno * totalMentors;
     }
+
+    // @notice It will trcak the status of the tokens.
+    // @dev It will check the role then it will check the timestatus with duration & tokenAvailable for role.
+    //  If token available then it will distrubute the token.
+    // @return It will return remaining token.
 
     function tokenStatus() private view returns(uint256) {
         uint8 roleCheck = beneficiaryMap[msg.sender].role;
@@ -132,6 +148,10 @@ contract Vesting is Ownable,ReentrancyGuard {
         return tokenAvailable - claimTokens;
     }
 
+    // @notice User's will able to claim token
+    // @dev It will check all the claimtoken and condition.It  also check whether you claim token last month or not. 
+    // If yes then youwill not able cliam the token. 
+
 
     function claimToken() external nonReentrant {
         require(vestingStarted == true, 'vesting not strated');
@@ -152,7 +172,6 @@ contract Vesting is Ownable,ReentrancyGuard {
 
         }
         uint256 tokens = tokenStatus();
-        //2629743
 
         token.transfer(msg.sender, tokens);
         beneficiaryMap[msg.sender].lastClaim = block.timestamp;
